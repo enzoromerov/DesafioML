@@ -1,0 +1,14 @@
+.Buscar, *::-webkit-scrollbar-thumb {
+  transition: all .5s;
+}
+
+.Buscar {
+  width: calc(100% - 210px);
+  height: calc(100vh - 140px);
+  overflow-x: auto;
+}
+
+.paddPaginas, .tablaABM, .paddConcepto {
+  width: calc(100% - 10px);
+  padding: 10px 10px 10px 0;
+}
