@@ -1,20 +1,23 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import rootReducer from './reducers';
-import createSagaMiddleware from 'redux-saga';
-import {persistStore, persistReducer} from 'redux-persist';
+import { thunk } from 'redux-thunk'; // Importa la función de middleware directamente
+import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-const persistConfig={
-    key:'main-root',
-    storage,
-}
+const persistConfig = {
+  key: 'main-root',
+  storage,
+};
 
-const persistedReducer=persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-const initialiseSagaMiddleware = createSagaMiddleware()
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const storeEnhancers = window.REDUX_DEVTOOLS_EXTENSION_COMPOSE || compose
+const store = createStore(
+  persistedReducer,
+  composeEnhancers(applyMiddleware(thunk))
+);
 
-export const store = createStore(persistedReducer, storeEnhancers(applyMiddleware(initialiseSagaMiddleware)))
+const persistor = persistStore(store);
 
-export const persistor = persistStore(store);
+export { store, persistor };

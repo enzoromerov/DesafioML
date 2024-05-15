@@ -22,7 +22,7 @@ const Buscar = () => {
             <Routes>
               <Route path="/*" />
               <Route path="/items?search=" element={<Resultados />} />
-              <Route path="/items/:ids" element={<productDetails />} />              
+              <Route path="/items/" element={<productDetails />} />              
               <Route path="/400" element={<E400 />} />
               <Route path="/404" element={<E404 />} />
               <Route path="/408" element={<E408 />} />
