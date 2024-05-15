@@ -10,7 +10,7 @@ const navbar = () => {
 
   return (
     <div className="navbar">
-        <div className="container">
+        <div className="containerNavbar">
           <div className="logo">
             <img src={LogoMELI} alt="Logo de Mercado Libre" />
           </div>

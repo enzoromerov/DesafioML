@@ -11,15 +11,16 @@
   }
   
     
-    .container {
+    .containerNavbar {
         display: flex;
-          width: 100%; 
+          width: calc(100% - 20%); 
           margin: 0 auto; 
           align-items: center;
           padding-left: none;
           padding-right: none;
           flex-direction: row;
           justify-content: center;
+          flex: 1;
     }
 
   .logo{
@@ -45,7 +46,7 @@
     background-color: #ffff;
     box-shadow: 0 1px 2px 0 rgba(0,0,0,.2);
     height: 40px;
-    width: 100%;
+    width: calc(100% - 18.5px);
     padding-block: 1px;
     padding-inline: 2px;
     color: #333;
@@ -56,5 +57,6 @@
   .buscar{
     justify-self: flex-end;
     
-    width: 60%;
+    width: 
+    calc(80% - 100px);
   }

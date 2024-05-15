@@ -17,8 +17,8 @@ const Buscar = () => {
     return (
         <div className="App">
         <Navbar></Navbar>
-        <div className="container">
           <div className="container">
+          <Resultados />
             <Routes>
               <Route path="/*" />
               <Route path="/items?search=" element={<Resultados />} />
@@ -29,7 +29,6 @@ const Buscar = () => {
             </Routes>
           </div>
    
-        </div>
   
       </div>
     );
