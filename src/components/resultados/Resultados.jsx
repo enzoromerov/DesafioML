@@ -5,42 +5,54 @@ function Resultados () {
   
   
   return (
-    <div className="tablaABM">
-        <div>
-
+    <div className="containerResultados">
+        <div className='contenedorCategories'>
+            <div className='categories'>
+                <span><b>Apple</b>  Apple</span>
+            </div>
         </div>
+        <div className='containerbody'>
+            <div className='containerItems'>
+                <div className='item'>
+                    <div className='colum1'>
+                        <div className='row'> 
 
-        <div>
-            
-        </div>
+                            <img src="" alt="" />
 
-            <div className={TotalPaginas === 1 ? 'd-none' : 'paginator'}>
-              <span className={paginaActual === 1 || PaginasActuales.length > 5? 'd-none' : 'page'} style={{ cursor: 'pointer' }}>
-                  <p onClick={() => actualizarPaginaActual(1)}>
-                  <BiChevronsLeft />
-                  </p>
-              </span>
-              {/* <span className={paginaActual === 1 || PaginasActuales.length > 5? 'd-none' : 'page'} style={{ cursor: 'pointer' }}>
-                  <p onClick={() => PaginasAnteriores()}>
-                  <BiChevronLeft />
-                  </p>
-              </span> */}
-              {PaginasActuales.map((pagina) => (
-                  <span key={pagina} className={paginaActual == pagina ? 'currentPage' : 'page'}>
-                  <a onClick={() => actualizarPaginaActual(pagina)}>{pagina}</a>
-                  </span>
-              ))}
-              {/* <span className={TotalPaginas <= 5 ? 'd-none' : 'page'} style={{ cursor: 'pointer' }}>
-                  <p onClick={() => PaginasSiguientes()}>
-                  <BiChevronRight />
-                  </p>
-              </span> */}
-              <span className={TotalPaginas <= 5 || paginaActual === TotalPaginas ? 'd-none' : 'page'} style={{ cursor: 'pointer' }}>
-                  <p onClick={() => actualizarPaginaActual(TotalPaginas)}>
-                  <BiChevronsRight />
-                  </p>
-              </span>
-          </div>
+                            <div className='containerTextItem'>
+                                <div className='row'>
+                                    <div className='price'>
+
+                                        <span>  $ 1980 </span>
+
+                                        <img src="" alt="" />
+
+                                    </div>                                    
+                                </div>
+                                <div className='row'>
+                                    <div className='description'>
+
+                                        <span>
+                                            Apple Ipod Touch 5g 16gb Negro Igual A Nuevo Completo Unico!
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='column2'>
+                        <div className='row2'>
+                            <div className='origen'>
+                                    <span> Mendoza </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>           
+            </div>
+        </div>           
     </div>
   );
 }

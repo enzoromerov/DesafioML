@@ -30,7 +30,7 @@ body{
   height: 100vh;
 }
 .App{
-  background-color: #999
+  background-color: #eee
   ;
 }
 .d-none{
@@ -47,6 +47,10 @@ body{
   align-self: center;
 }
 
+.container{
+  width: 800px;
+  height: 100%;
+}
 /* Títulos */
 .tituloH3, .tituloH4{
   color: var(--colorByma-5);
