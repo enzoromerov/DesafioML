@@ -7,7 +7,7 @@
     justify-content: center;
 }
 
-.contenedorCategories{
+.contenedorCategoriesResultados{
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -19,31 +19,37 @@
     
         
 }
+.containerbodyResults{
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    justify-content: flex-start;
+    border-radius: 4px;
+    width: 100%;
+}
 .categories span{
     color: #666666;
     font-size: 14px;
     font-weight: 450;
     line-height: 20.3px;
     text-align: left;
-    
+    align-items: center; 
     }
 .categories{
     display: flex;
-   
+    line-height: 20.3px;
+    align-items: center;
 
 }
-.iconCategories{
+.categories svg {
     color: #666666;
-    display: inline;
-    float: none;
-    margin: 0 4px;
-    padding: 0;
     stroke-width: 1.3;
+    vertical-align: middle; /* Align icon vertically with text */
 }
 
 .containerItems{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     background-color: #fff;
     justify-content: flex-start;
     border-radius: 4px;
@@ -70,6 +76,7 @@
     height: 180px;
     border-radius: 4px;
     object-fit: contain;
+    cursor: pointer;
 }
 
 .containerTextItem{
@@ -106,6 +113,7 @@ justify-content: space-between;
     width: 24px;
     height: 24px;
     border-radius: 50px;
+    object-fit: cover;
 
 }
 
@@ -154,3 +162,10 @@ justify-content: space-between;
     text-align: left;
     justify-self: flex-end;
 }
+hr {
+    margin-left: 32px; /* Agrega un margen izquierdo de 16px */
+    margin-right: 32px; /* Agrega un margen derecho de 16px */
+    background-color: #eeeeee; /* Establece el color de fondo */
+  height: 1px; /* Establece el grosor de la línea */
+  border: none;
+  }
