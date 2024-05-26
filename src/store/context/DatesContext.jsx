@@ -6,7 +6,7 @@ let { Provider, Consumer } = DatesContext
 
 
 function DatesProvider({ children }) {
-    // MANEJO DE FECHAS
+    
     const [dates, setDates] = useState([
         {
             startDate: new Date(),
@@ -21,7 +21,6 @@ function DatesProvider({ children }) {
         return d + '-' + m + '-' + day.getFullYear();
     }
     
-    // PARA MOSTRAR O NO ESCRITORIOS 
     const [ workspaceBtn, setWorkspaceBtn ] = useState("none");
 
     return (

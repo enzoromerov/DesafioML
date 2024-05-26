@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import ProductDetails from '../components/productDetails/ProductDetails';
+import ProductDetails from '../components/productDetails/productDetails.jsx';
 import Resultados from '../components/resultados/Resultados';
 import E400 from '../components/errores/E400';
 import E404 from '../components/errores/E404';
@@ -20,7 +20,7 @@ const Buscar = () => {
         <Routes>
           <Route path="/" element={<Resultados />} />
           <Route path="/items" element={<Resultados />} />
-          <Route path="/items/:id" element={<ProductDetails />} />  {/* Ruta corregida */}
+          <Route path="/items/:id" element={<ProductDetails />} />  
           <Route path="/400" element={<E400 />} />
           <Route path="/404" element={<E404 />} />
           <Route path="/408" element={<E408 />} />

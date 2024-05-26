@@ -13,13 +13,13 @@ export default function ResultadosItems(state = initialState, action) {
         ...state,
         author: {
           ...state.author,
-          ...action.payload // Debe contener { name, lastname }
+          ...action.payload 
         }
       };
     case 'SET_ITEMS':
       return {
         ...state,
-        items: action.payload // Debe ser un array
+        items: action.payload 
       };
     default:
       return state;

@@ -1,12 +1,11 @@
 import { combineReducers } from "redux";
-import ResultadosItems from "./reducers/ResultadosItems";
-import ItemName from "./reducers/ItemName"
+
+import CantidadDisponible from "./reducers/CantidadDisponible"
 
 
 const rootReducer = combineReducers({
 
-    ResultadosItems,
-    ItemName
+  CantidadDisponible
     
   });
 
