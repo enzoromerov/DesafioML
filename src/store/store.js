@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import rootReducer from './reducers';
-import { thunk } from 'redux-thunk'; // Importa la función de middleware directamente
+import { thunk } from 'redux-thunk'; 
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 

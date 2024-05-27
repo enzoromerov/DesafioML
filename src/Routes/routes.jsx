@@ -8,7 +8,7 @@ import Buscar from '../vistas/Buscar.jsx'
 const MainRoutes = () => {
   return (
     <Provider store={store}>
-       <Buscar/>
+      <Buscar/>
     </Provider>
     )
 };

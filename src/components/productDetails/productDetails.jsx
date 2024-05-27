@@ -1,54 +1,75 @@
 import React, { useState, useEffect } from 'react';
-import './productDetails.scss';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import urlBack from '../../utilities/urlBack';
-import { RiArrowRightWideFill } from "react-icons/ri";
+import './ProductDetails.scss'; 
+import axios from 'axios'; 
+import { useParams } from 'react-router-dom'; 
+import urlBack from '../../utilities/urlBack'; 
+import { RiArrowRightWideFill } from "react-icons/ri"; 
+import { useSelector } from "react-redux"; 
 
 function ProductDetails() {
-  const { id } = useParams();  // Obtener el id de los parámetros de la URL
-  const [Categorias, setCategorias] = useState([]);
-  const initialState = {
-    author: {
-      name: "",
-      lastname: ""
-    },
-    item: {
-      id: "",
-      title: "",
-      price: {
-        currency: "",
-        amount: "",
-        decimals: "",
-      },
-      picture: "",
-      condition: "",
-      free_shipping: false,
-      sold_quantity: "",
-      description: "",
-    }
-  };
+  
+  const CantidadDisponible = useSelector(state => state.CantidadDisponible);
+  const [Vendidos, setVendidos] = useState(""); 
 
-  const [Item, setItem] = useState(initialState);
+
+  const { id } = useParams(); 
+  const [Categorias, setCategorias] = useState([]); 
+  const [producto, setProducto] = useState(null); 
+  const [cargando, setCargando] = useState(true); 
 
   useEffect(() => {
-    if (id) {
-      axios.get(`${urlBack}/api/items/${id}`, {
-        headers: {
-          "Content-Type": "application/json",
-          accept: '*/*',
-        },
-      })
-        .then(function (response) {
-          console.log(response);
-          setCategorias(response.data.categories); // Acceder a las categorías correctamente
-          setItem(response.data.item);  // Acceder al objeto item correctamente
-        })
-        .catch(function (error) {
-          console.log(error);
+    
+    const obtenerProducto = async () => {
+      try {
+        const respuesta = await axios.get(`${urlBack}/api/items/${id}`, {
+          headers: { "Content-Type": "application/json", accept: '*/*' },
         });
+
+        setCategorias(respuesta.data.categories); 
+        setProducto(respuesta.data.item); 
+
+        
+        const vendidos = CantidadDisponible 
+          ? respuesta.data.item.sold_quantity - CantidadDisponible.CantidadDisponible 
+          : respuesta.data.item.sold_quantity;
+
+        setVendidos(vendidos); 
+      } catch (error) {
+        console.error("Error al obtener el producto:", error);
+    
+      } finally {
+        setCargando(false); 
+      }
+    };
+
+    if (id) {
+      obtenerProducto(); 
     }
-  }, [id]);
+  }, [id, CantidadDisponible]);
+
+  
+  const formatPrice = (amount, decimals) => {
+    const formatter = new Intl.NumberFormat('es-AR', {
+      style: 'currency',
+      currency: 'ARS',
+      minimumFractionDigits: decimals === 0 ? 2 : 0, 
+      maximumFractionDigits: 0, 
+    });
+    return formatter.format(amount);
+  };
+
+
+  if (cargando) {
+    return <div className="productDetails">Cargando...</div>;
+  }
+
+  if (!producto) {
+    return (
+      <div className="productDetails">
+        <p>Hubo un error al cargar el producto.</p>
+      </div>
+    );
+  }
 
   return (
     <div className='productDetails'>
@@ -59,8 +80,7 @@ function ProductDetails() {
               <span key={index}>
                 {index < Categorias.length - 1 ? (
                   <>
-                    {category}
-                    <RiArrowRightWideFill />
+                    {category} <RiArrowRightWideFill />
                   </>
                 ) : (
                   <b>{category}</b>
@@ -72,18 +92,20 @@ function ProductDetails() {
       </div>
       <div className='containerbody'>
         <div className='row1product'>
-          <img src={Item.picture} alt={Item.title} /> {/* Asegurarse de que Item tenga los datos necesarios */}
+          <img src={producto.picture} alt={producto.title} /> 
           <div className='block-Item'>
             <div className='block-comprar'>
               <div className='block-cantvendidos'>
-                <span>{Item.condition === 'new' ? 'Nuevo' : 'Usado'}</span> - <span>{Item.sold_quantity} vendidos</span> {/* Mostrar la cantidad de vendidos */}
+                <span>{producto.condition === 'new' ? 'Nuevo' : 'Usado'}</span> - <span>{Vendidos} vendidos</span> 
               </div>
             </div>
             <div className='titleItem'>
-              <span>{Item.title}</span>
+              <span>{producto.title}</span>
             </div>
             <div className='priceItem'>
-              <span>$ {Item.price?.amount}</span> {/* Usar optional chaining para evitar errores si price es undefined */}
+              <span>{formatPrice(producto.price?.amount)}</span>
+              {producto.price.decimals == 0 ? <span className='decimals'> 00 </span> : <span className='decimals'> {producto.price.decimals} </span>}
+              
             </div>
             <div className='button-comprar'>
               <button>
@@ -93,14 +115,14 @@ function ProductDetails() {
           </div>
         </div>
         <div className='title-descripcion'>
-          <span>Descripcion del producto</span>
+          <span>Descripción del producto</span>
         </div>
         <div className='detalle'>
-          <span>{Item.description}</span> {/* Mostrar la descripción del producto */}
+          <span>{producto.description}</span> 
         </div>
       </div>
     </div>
   );
 }
 
-export default ProductDetails;
+export default ProductDetails;  

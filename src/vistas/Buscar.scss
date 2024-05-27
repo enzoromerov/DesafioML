@@ -1,22 +1,24 @@
-.Buscar, *::-webkit-scrollbar-thumb {
-  transition: all .5s;
-}
-
 .Buscar {
-  width: calc(100% - 210px);
+  width: 100%;
+  max-width: 1200px; 
+  min-width: 320px; 
   height: calc(100vh - 140px);
   overflow-x: auto;
+  
 }
 
-.paddPaginas, .tablaABM, .paddConcepto {
+.paddPaginas,
+.tablaABM,
+.paddConcepto {
   width: calc(100% - 10px);
   padding: 10px 10px 10px 0;
 }
 
-.container{
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: #eeeeee;
   width: 100%;
+  min-width: 1000px;
 }
