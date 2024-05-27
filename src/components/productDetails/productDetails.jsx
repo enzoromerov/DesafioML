@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './ProductDetails.scss'; 
+import './productDetails.scss'; 
 import axios from 'axios'; 
 import { useParams } from 'react-router-dom'; 
 import urlBack from '../../utilities/urlBack'; 

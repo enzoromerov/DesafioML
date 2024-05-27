@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import ProductDetails from '../components/productDetails/ProductDetails.jsx';
+import ProductDetails from '../components/productDetails/productDetails.jsx';
 import Resultados from '../components/resultados/Resultados';
 import "./Buscar.scss";
 import Navbar from '../components/navbar/navbar';
