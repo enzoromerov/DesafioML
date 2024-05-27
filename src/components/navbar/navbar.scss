@@ -6,7 +6,7 @@
     top: 0;
     box-shadow: none;
     display: flex;
-    
+    min-width: 1030px;
 
   }
   
@@ -15,7 +15,7 @@
         display: flex;
           width: 100%;
           max-width: 1200px; 
-          min-width: 160px; 
+          min-width: 1000px; 
           margin: 0 auto; 
           align-items: center;
           padding-left: none;
@@ -36,7 +36,7 @@
         width: 65px;
         align-self: baseline;
         padding-top: 2px;
-
+        cursor: pointer;
       }
       
   

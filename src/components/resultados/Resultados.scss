@@ -1,7 +1,7 @@
 .containerResultados {
     width: 100%;
     max-width: 1200px; 
-    min-width: 320px; 
+    min-width: 800px; 
     display: flex;
     height: min-content;
     background-color: #eeeeee;
@@ -93,7 +93,7 @@
         display: flex;
         align-items: center;
         padding-top: 16px;
-        padding-bottom: 16px;
+        padding-bottom: 32px;
     }
 
     .price span {
@@ -110,11 +110,13 @@
         height: 24px;
         border-radius: 50px;
         object-fit: cover;
+        padding: 0 16px 0 16px;
+        cursor:default;
     }
 
     .description {
         display: flex;
-        width: 25rem;
+        width: 36rem;
     }
 
     .description span {
@@ -124,6 +126,7 @@
         text-align: left;
         text-size-adjust: 100%;
         color: #333333;
+        cursor: pointer;
     }
 
     .column2 {

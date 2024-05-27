@@ -20,34 +20,35 @@ function Resultados() {
       totalPaginas: 0,
     },
   });
+  const [cargando, setCargando] = useState(true); 
 
   const { categorias, items, paginacion } = resultados;
   const query = new URLSearchParams(location.search).get("search");
 
-  useEffect(() => {
-    const obtenerResultados = async () => {
-      try {
-        const respuesta = await axios.get(
-          `${urlBack}/api/items?q=${query}&page=${paginacion.paginaActual}&limit=4`
-        );
 
-        setResultados({
-          categorias: respuesta.data.categories,
-          items: respuesta.data.items,
-          paginacion: {
-            paginaActual: respuesta.data.pagination?.page || 1,
-            totalPaginas: respuesta.data.pagination?.pages || 1,
-          },
-        });
-      } catch (error) {
-        console.error("Error al obtener resultados:", error);
-      }
-    };
 
-    if (query) {
-      obtenerResultados();
+
+  const obtenerResultados = async () => {
+    try {
+      const respuesta = await axios.get(
+        `${urlBack}/api/items?q=${query}&page=${paginacion.paginaActual}&limit=4`
+      );
+
+      setResultados({
+        categorias: respuesta.data.categories,
+        items: respuesta.data.items,
+        paginacion: {
+          paginaActual: respuesta.data.pagination?.page || 1,
+          totalPaginas: respuesta.data.pagination?.pages || 1,
+        },
+      });
+    } catch (error) {
+      console.error("Error al obtener resultados:", error);
+    }finally {
+      setCargando(false); 
     }
-  }, [query, paginacion.paginaActual]);
+  };
+
 
   const handlePageChange = (nuevaPagina) => {
     if (nuevaPagina >= 1 && nuevaPagina <= paginacion.totalPaginas) {
@@ -75,6 +76,17 @@ function Resultados() {
       maximumFractionDigits: 0,
     }).format(numero);
   };
+
+  useEffect(() => {
+    if (query) {
+      obtenerResultados();
+    }
+  }, [query, paginacion.paginaActual]);
+
+  if (cargando && query) {
+    return <div className="containerResultados">Cargando...</div>;
+  }
+
 
   return (
     <div className="containerResultados">
@@ -108,19 +120,19 @@ function Resultados() {
                 >
                   <div className="colum1">
                     <div className="row">
-                      <img src={item.picture} alt={item.title} />
+                      <img src={item.picture} alt={item.title} title={item.title}/>
                       <div className="containerTextItem">
                         <div className="row">
                           <div className="price">
                             <span>{formatNumber(item.price?.amount)}</span>
                             {item.free_shipping === true && (
-                              <img src={CamionML} alt="envio gratis" />
+                              <img src={CamionML} alt="envio gratis" title="Envio gratis" />
                             )}
                           </div>
                         </div>
                         <div className="row">
                           <div className="description">
-                            <span>{item.title}</span>
+                            <span> {item.title}</span>
                           </div>
                         </div>
                       </div>

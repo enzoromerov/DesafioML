@@ -34,11 +34,18 @@ const Navbar = () => {
     navigate(`/items?search=${Item}`);
   };
 
+  const returnHome = () => {
+
+    navigate(`/`);
+
+  }
+
+  
   return (
     <div className="navbar">
       <div className="containerNavbar">
         <div className="logo">
-          <img src={LogoMELI} alt="Logo de Mercado Libre" />
+          <img src={LogoMELI} alt="Logo de Mercado Libre" title="Mercado Libre" onClick={returnHome}/>
         </div>
         <div className="buscar">
           <input
@@ -48,7 +55,7 @@ const Navbar = () => {
             value={Item}
             onKeyDown={handleKeyDown}
           />
-          <span onClick={buscarElemento}>
+          <span onClick={buscarElemento} alt="buscar" title="Buscar">
             <IoIosSearch />
           </span>
         </div>
