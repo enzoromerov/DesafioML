@@ -7,6 +7,8 @@ import { RiArrowRightWideFill } from "react-icons/ri";
 import CamionML from "../../assets/camionML.png";
 import { useDispatch } from "react-redux";
 import SEO from "../../utilities/seo.jsx";
+import  LazyLoad  from "react-lazyload";
+
 
 function Resultados() {
   const dispatch = useDispatch();
@@ -30,26 +32,34 @@ function Resultados() {
 
 
   const obtenerResultados = async () => {
+    const cachedData = localStorage.getItem(`resultados_${query}`);
+    if(cachedData){
+      setResultados(JSON.parse(cachedData));
+      setCargando(false); 
+    }else{
     try {
       const respuesta = await axios.get(
         `${urlBack}/api/items?q=${query}&page=${paginacion.paginaActual}&limit=4`
       );
-
-      setResultados({
+      
+      const resultadosFormateados = {
         categorias: respuesta.data.categories,
         items: respuesta.data.items,
         paginacion: {
           paginaActual: respuesta.data.pagination?.page || 1,
           totalPaginas: respuesta.data.pagination?.pages || 1,
         },
-      });
+      };
+
+      setResultados(resultadosFormateados);
+      localStorage.setItem(`resultados_${query}`, JSON.stringify(resultadosFormateados));
     } catch (error) {
       console.error("Error al obtener resultados:", error);
     }finally {
       setCargando(false); 
     }
+    }
   };
-
 
   const handlePageChange = (nuevaPagina) => {
     if (nuevaPagina >= 1 && nuevaPagina <= paginacion.totalPaginas) {
@@ -122,7 +132,9 @@ function Resultados() {
                 >
                   <div className="colum1">
                     <div className="row">
+                    <LazyLoad>
                       <img src={item.picture} alt={item.title} title={item.title}/>
+                      </LazyLoad>
                       <div className="containerTextItem">
                         <div className="row">
                           <div className="price">

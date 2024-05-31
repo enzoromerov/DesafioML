@@ -6,6 +6,7 @@ import urlBack from '../../utilities/urlBack';
 import { RiArrowRightWideFill } from "react-icons/ri"; 
 import { useSelector } from "react-redux"; 
 import SEO from "../../utilities/seo.jsx"
+import LazyLoad from 'react-lazyload';
 
 function ProductDetails() {
   
@@ -21,25 +22,31 @@ function ProductDetails() {
   useEffect(() => {
     
     const obtenerProducto = async () => {
-      try {
-        const respuesta = await axios.get(`${urlBack}/api/items/${id}`, {
-          headers: { "Content-Type": "application/json", accept: '*/*' },
-        });
+      const cachedData = localStorage.getItem(`producto_${id}`);
+      if (cachedData) {
+        setProducto(JSON.parse(cachedData));
+        setCargando(false);
+      } else {
+        try {
+          const respuesta = await axios.get(`${urlBack}/api/items/${id}`, {
+            headers: { "Content-Type": "application/json", accept: '*/*' },
+          });
 
-        setCategorias(respuesta.data.categories); 
-        setProducto(respuesta.data.item); 
+          setCategorias(respuesta.data.categories);
+          setProducto(respuesta.data.item);
 
-        
-        const vendidos = CantidadDisponible 
-          ? respuesta.data.item.sold_quantity - CantidadDisponible.CantidadDisponible 
-          : respuesta.data.item.sold_quantity;
+          const vendidos = CantidadDisponible
+            ? respuesta.data.item.sold_quantity - CantidadDisponible.CantidadDisponible
+            : respuesta.data.item.sold_quantity;
 
-        setVendidos(vendidos); 
-      } catch (error) {
-        console.error("Error al obtener el producto:", error);
-    
-      } finally {
-        setCargando(false); 
+          setVendidos(vendidos);
+
+          localStorage.setItem(`producto_${id}`, JSON.stringify(respuesta.data.item));
+        } catch (error) {
+          console.error("Error al obtener el producto:", error);
+        } finally {
+          setCargando(false);
+        }
       }
     };
 
@@ -94,7 +101,9 @@ function ProductDetails() {
       </div>
       <div className='containerbody'>
         <div className='row1product'>
+          <LazyLoad> 
           <img src={producto.picture} alt={producto.title} /> 
+          </LazyLoad> 
           <div className='block-Item'>
             <div className='block-comprar'>
               <div className='block-cantvendidos'>
