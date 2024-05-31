@@ -4,13 +4,14 @@ import ProductDetails from '../components/productDetails/productDetails.jsx';
 import Resultados from '../components/resultados/Resultados';
 import "./Buscar.scss";
 import Navbar from '../components/navbar/navbar';
-
+import SEO from "../utilities/seo.jsx"
 
 const Buscar=()=>{
 
 
   return (
     <div className="App">
+      <SEO title="Mercado Libre - Busca todo lo que necesites" description="Encontrá productos, marcas y más en Mercado Libre" />
       <Navbar />
       <div className="container">
         <Routes>

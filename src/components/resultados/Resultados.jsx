@@ -6,6 +6,7 @@ import urlBack from "../../utilities/urlBack";
 import { RiArrowRightWideFill } from "react-icons/ri";
 import CamionML from "../../assets/camionML.png";
 import { useDispatch } from "react-redux";
+import SEO from "../../utilities/seo.jsx";
 
 function Resultados() {
   const dispatch = useDispatch();
@@ -90,6 +91,7 @@ function Resultados() {
 
   return (
     <div className="containerResultados">
+      {query !== "" && query !== undefined && <SEO title={`Mercado Libre - Resultados para "${query}"`} description={`Resultados de búsqueda para "${query}" en Mercado Libre`} />}
       <div className="contenedorCategoriesResultados">
         {categorias !== undefined && (
           <div className="categories">

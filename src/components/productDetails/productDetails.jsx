@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import urlBack from '../../utilities/urlBack'; 
 import { RiArrowRightWideFill } from "react-icons/ri"; 
 import { useSelector } from "react-redux"; 
+import SEO from "../../utilities/seo.jsx"
 
 function ProductDetails() {
   
@@ -73,6 +74,7 @@ function ProductDetails() {
 
   return (
     <div className='productDetails'>
+      {producto && <SEO title={`${producto.title} - Mercado Libre`} description={`Compra ${producto.title} en Mercado Libre`} />}
       <div className='contenedorCategories'>
         {Categorias.length > 0 && (
           <div className='categories'>
