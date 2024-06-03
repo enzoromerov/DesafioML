@@ -6,6 +6,9 @@ export default defineConfig({
   plugins: [react()],
   test: {
     globals: true, // Habilita variables globales (como 'window') en el entorno de pruebas
-    environment: 'jsdom', // Utiliza jsdom para simular el entorno del navegador
+    environment: 'jsdom',
+    deps: {
+      registerNodeLoader: true, // Habilita la carga de módulos CommonJS
+    }, // Utiliza jsdom para simular el entorno del navegador
   },
 });

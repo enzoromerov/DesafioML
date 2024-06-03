@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import urlBack from "../utilities/urlBack"; // Asegúrate de que la ruta sea correcta
+import urlBack from "../utilities/urlBack"; 
 import { useSelector } from "react-redux";
 
 function useFetchProductDetails(productId) {
@@ -24,7 +24,9 @@ function useFetchProductDetails(productId) {
           ? respuesta.data.item.sold_quantity -
             CantidadDisponible.CantidadDisponible
           : respuesta.data.item.sold_quantity;
-
+          console.log(respuesta.data.item.sold_quantity)
+        console.log(CantidadDisponible)
+        console.log(vendidos)
         setVendidos(vendidos);
       } catch (error) {
         console.error("Error al obtener el producto:", error);

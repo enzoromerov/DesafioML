@@ -24,23 +24,23 @@ function ProductDetails() {
 
   return (
     <div className='productDetails'>
-      <div className='contenedorCategories'>
-        {categorias.length > 0 && (
-          <div className='categories'>
-            {categorias.map((category, index) => (
-              <span key={index}>
-                {index < categorias.length - 1 ? (
-                  <>
-                    {category} <RiArrowRightWideFill />
-                  </>
-                ) : (
-                  <b>{category}</b>
-                )}
-              </span>
-            ))}
-          </div>
-        )}
-      </div>
+        <div className='contenedorCategories' >
+          {categorias.length > 0 && (
+            <div className='categories'>
+              {categorias.map((category, index) => (
+                <span key={index}>
+                  {index < categorias.length - 1 ? (
+                    <>
+                      {category} <RiArrowRightWideFill />
+                    </>
+                  ) : (
+                    <b>{category}</b>
+                  )}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
       <div className='containerbody'>
         <div className='row1product'>
           <img src={producto.picture} alt={producto.title} /> 
@@ -54,7 +54,7 @@ function ProductDetails() {
               <span>{producto.title}</span>
             </div>
             
-            {producto && producto.price && ( // Verificación adicional
+            {producto && producto.price && ( 
               <div className='priceItem'>
                 <span>{formatPrice(producto.price.amount)}</span>
                 {producto.price.decimals === 0 ? (
