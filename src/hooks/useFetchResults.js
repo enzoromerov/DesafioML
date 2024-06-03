@@ -1,6 +1,6 @@
-import { useEffect, useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import urlBack from "../utilities/urlBack"; // Asegúrate de que la ruta sea correcta
+import urlBack from "../utilities/urlBack";
 
 function useFetchResults(query, initialPage = 1, limit = 4) {
   const [resultados, setResultados] = useState({
@@ -12,52 +12,44 @@ function useFetchResults(query, initialPage = 1, limit = 4) {
     },
   });
   const [cargando, setCargando] = useState(true);
-
-  // Usamos useRef para almacenar paginaActual
-  const paginaActualRef = useRef(initialPage);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const obtenerResultados = async () => {
-      try {
-        const respuesta = await axios.get(
-          `${urlBack}/api/items?q=${query}&page=${paginaActualRef.current}&limit=${limit}` // Usamos paginaActualRef.current
-        );
+      const cacheKey = `resultados_${query}_${initialPage}_${limit}`;
+      const cachedData = localStorage.getItem(cacheKey);
 
-        setResultados({
-          categorias: respuesta.data.categories,
-          items: respuesta.data.items,
-          paginacion: {
-            paginaActual: respuesta.data.pagination?.page || 1,
-            totalPaginas: respuesta.data.pagination?.pages || 1,
-          },
-        });
-      } catch (error) {
-        console.error("Error al obtener resultados:", error);
-      } finally {
-        setCargando(false);
+      if (cachedData) {
+        setResultados(JSON.parse(cachedData));
+      } else {
+        try {
+          const respuesta = await axios.get(
+            `${urlBack}/api/items?q=${query}&page=${initialPage}&limit=${limit}`
+          );
+
+          const resultadosFormateados = {
+            categorias: respuesta.data.categories,
+            items: respuesta.data.items,
+            paginacion: {
+              paginaActual: respuesta.data.pagination?.page || 1,
+              totalPaginas: respuesta.data.pagination?.pages || 1,
+            },
+          };
+
+          setResultados(resultadosFormateados);
+          localStorage.setItem(cacheKey, JSON.stringify(resultadosFormateados));
+        } catch (error) {
+          console.error("Error al obtener resultados:", error);
+          setError(error); // Manejo de errores
+        }
       }
+      setCargando(false);
     };
 
-    if (query) {
-      obtenerResultados();
-    }
-  }, [query, limit]); // Eliminamos paginaActual de las dependencias
+    obtenerResultados(); // Llama a la función dentro del useEffect
+  }, [query, initialPage, limit]); // Dependencias para re-ejecutar el efecto
 
-  const handlePageChange = (nuevaPagina) => {
-    if (nuevaPagina >= 1 && nuevaPagina <= resultados.paginacion.totalPaginas) {
-      // Actualizamos paginaActualRef antes de setResultados
-      paginaActualRef.current = nuevaPagina; 
-      setResultados((prevResultados) => ({
-        ...prevResultados,
-        paginacion: {
-          ...prevResultados.paginacion,
-          paginaActual: nuevaPagina,
-        },
-      }));
-    }
-  };
-
-  return { resultados, cargando, handlePageChange };
+  return { resultados, cargando, error }; // Retorna los datos y estados necesarios
 }
 
 export default useFetchResults;

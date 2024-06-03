@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Resultados.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 import { RiArrowRightWideFill } from "react-icons/ri";
@@ -11,9 +11,10 @@ function Resultados() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-
+  const [paginaActual, setPaginaActual] = useState(1);
+  const [limite, setLimite] = useState(4)
   const query = new URLSearchParams(location.search).get("search");
-  const { resultados, cargando, handlePageChange } = useFetchResults(query); // Obtenemos handlePageChange del hook
+  const { resultados, cargando, error } = useFetchResults(query, paginaActual, limite); // Obtenemos handlePageChange del hook
   const { categorias, items, paginacion } = resultados;
   const formatNumber = useFormatNumber();
 
@@ -28,6 +29,9 @@ function Resultados() {
     return <div className="containerResultados">Cargando...</div>;
   }
 
+  const handlePagina = (pagina) => {
+    setPaginaActual(pagina);
+  };
 
   return (
     <div className="containerResultados">
@@ -95,17 +99,17 @@ function Resultados() {
           <div className="noResults">No hay resultados para tu búsqueda.</div>
         )}
       </div>
-      {paginacion.paginaActual !== 0 ? (
+      {paginacion.totalPaginas !== 1 ? (
         <div className="containerPaginas">
           <button
-            onClick={() => handlePageChange(paginacion.paginaActual - 1)}
+            onClick={() => handlePagina(paginacion.paginaActual - 1)}
             disabled={paginacion.paginaActual === 1}
           >
             Anterior
           </button>
           <select
             value={paginacion.paginaActual}
-            onChange={(e) => handlePageChange(parseInt(e.target.value, 10))}
+            onChange={(e) => handlePagina(parseInt(e.target.value, 10))}
           >
             {[...Array(paginacion.totalPaginas).keys()].map((pageNumber) => (
               <option key={pageNumber} value={pageNumber + 1}>
@@ -114,7 +118,7 @@ function Resultados() {
             ))}
           </select>
           <button
-            onClick={() => handlePageChange(paginacion.paginaActual + 1)}
+            onClick={() => handlePagina(paginacion.paginaActual + 1)}
             disabled={paginacion.paginaActual === paginacion.totalPaginas}
           >
             Siguiente
