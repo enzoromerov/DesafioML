@@ -17,9 +17,17 @@ Esta es la interfaz de usuario para interactuar con la API de Mercado Libre, pro
 * **React Icons:** Biblioteca de iconos para mejorar la interfaz de usuario.
 * **Sass:** Preprocesador CSS para estilos más estructurados y mantenibles.
 * **Vite:** Herramienta de construcción rápida para desarrollo y producción.
+* **React Helmet**: Optimiza el SEO de la aplicación, gestionando metaetiquetas para mejorar la visibilidad en buscadores.
+* **Vitest**: Framework de pruebas unitarias y de integración rápido y moderno, diseñado para proyectos Vite. Nos ayuda a garantizar la calidad y estabilidad de la aplicación.
 
 ## Instalación
 
 1. Clona este repositorio: `git clone https://github.com/enzoromerov/DesafioML.git`
 2. Instala las dependencias: `npm install`
 3. Inicia el servidor de desarrollo: `npm run dev`
+
+## Test
+1. Iniciar test: `npx vitest`
+
+
+
