@@ -85,7 +85,7 @@ describe("useFetchResults", () => {
     await vi.waitFor(() => expect(result.current.cargando).toBe(false));
 
     // Verifica que se usaron los datos en caché
-    expect(axios.get).not.toHaveBeenCalled(); // No se debe llamar a la API
+    expect(axios.get).not.toHaveBeenCalled(); 
     expect(result.current.resultados).toEqual(cachedData);
   });
 

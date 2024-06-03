@@ -53,7 +53,7 @@ describe("useFetchProductDetails", () => {
     vi.clearAllMocks(); //window.localStorage.clear();
   });
 
-  it("should fetch product details from API", async () => {
+  it("debe obtener product details de API ", async () => {
     const productId = "MLA123456789";
     mockStore.dispatch({ type: "setCantidadDisponible", payload: 10 }); // Simulamos que hay 10 disponibles en el store
 

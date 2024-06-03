@@ -40,16 +40,16 @@ function useFetchResults(query, initialPage = 1, limit = 4) {
           localStorage.setItem(cacheKey, JSON.stringify(resultadosFormateados));
         } catch (error) {
           console.error("Error al obtener resultados:", error);
-          setError(error); // Manejo de errores
+          setError(error); 
         }
       }
       setCargando(false);
     };
 
-    obtenerResultados(); // Llama a la función dentro del useEffect
-  }, [query, initialPage, limit]); // Dependencias para re-ejecutar el efecto
+    obtenerResultados(); 
+  }, [query, initialPage, limit]); 
 
-  return { resultados, cargando, error }; // Retorna los datos y estados necesarios
+  return { resultados, cargando, error }; 
 }
 
 export default useFetchResults;

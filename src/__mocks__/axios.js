@@ -6,7 +6,7 @@ export default {
             id: "MLA123456789",
             title: "Producto de prueba",
             price: 1000,
-            sold_quantity: 50, // Se quitó la coma extra
+            sold_quantity: 50, 
             condition: "new",
             pictures: [
               {

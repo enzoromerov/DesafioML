@@ -1,6 +1,5 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { renderHook, act } from '@testing-library/react-hooks'; // act desde react-hooks
+import { renderHook, act } from '@testing-library/react-hooks';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, useNavigate } from 'react-router-dom';
 import { describe, it, expect } from 'vitest';

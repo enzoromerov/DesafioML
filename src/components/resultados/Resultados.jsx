@@ -17,11 +17,11 @@ function Resultados() {
   const [paginaActual, setPaginaActual] = useState(1);
   const [limite, setLimite] = useState(4)
   const query = new URLSearchParams(location.search).get("search");
-  const { resultados, cargando, error } = useFetchResults(query, paginaActual, limite); // Obtenemos handlePageChange del hook
+  const { resultados, cargando, error } = useFetchResults(query, paginaActual, limite); 
   const { categorias, items, paginacion } = resultados;
   const formatNumber = useFormatNumber();
 
-  // Eliminamos handlePageChange ya que no es necesario en este componente
+
 
   const goToItemDetails = (id, available_quantity) => {
     dispatch({ type: "CantidadDisponible", payload: available_quantity });

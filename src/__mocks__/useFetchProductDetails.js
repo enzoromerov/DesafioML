@@ -33,7 +33,7 @@ useFetchProductDetailsMock.mockImplementation((productId) => {
         },
       };
 
-      await new Promise((resolve) => setTimeout(resolve, 1)); // Retraso simulado
+      await new Promise((resolve) => setTimeout(resolve, 10)); // Retraso simulado
       setCategorias(result.categories);
       setProducto(result.item);
       setVendidos(40); // Valor simulado de vendidos
