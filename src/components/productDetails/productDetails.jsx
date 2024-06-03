@@ -1,63 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './productDetails.scss'; 
-import axios from 'axios'; 
 import { useParams } from 'react-router-dom'; 
-import urlBack from '../../utilities/urlBack'; 
 import { RiArrowRightWideFill } from "react-icons/ri"; 
-import { useSelector } from "react-redux"; 
+import useFetchProductDetails from '../../hooks/useFetchProductDetails';
+import useFormatPrice from '../../hooks/useFormatPrice';
 
 function ProductDetails() {
-  
-  const CantidadDisponible = useSelector(state => state.CantidadDisponible);
-  const [Vendidos, setVendidos] = useState(""); 
-
-
-  const { id } = useParams(); 
-  const [Categorias, setCategorias] = useState([]); 
-  const [producto, setProducto] = useState(null); 
-  const [cargando, setCargando] = useState(true); 
-
-  useEffect(() => {
-    
-    const obtenerProducto = async () => {
-      try {
-        const respuesta = await axios.get(`${urlBack}/api/items/${id}`, {
-          headers: { "Content-Type": "application/json", accept: '*/*' },
-        });
-
-        setCategorias(respuesta.data.categories); 
-        setProducto(respuesta.data.item); 
-
-        
-        const vendidos = CantidadDisponible 
-          ? respuesta.data.item.sold_quantity - CantidadDisponible.CantidadDisponible 
-          : respuesta.data.item.sold_quantity;
-
-        setVendidos(vendidos); 
-      } catch (error) {
-        console.error("Error al obtener el producto:", error);
-    
-      } finally {
-        setCargando(false); 
-      }
-    };
-
-    if (id) {
-      obtenerProducto(); 
-    }
-  }, [id, CantidadDisponible]);
-
-  
-  const formatPrice = (amount, decimals) => {
-    const formatter = new Intl.NumberFormat('es-AR', {
-      style: 'currency',
-      currency: 'ARS',
-      minimumFractionDigits: decimals === 0 ? 2 : 0, 
-      maximumFractionDigits: 0, 
-    });
-    return formatter.format(amount);
-  };
-
+  const { id } = useParams();
+  const { categorias, producto, cargando, vendidos } = useFetchProductDetails(id);
+  const formatPrice = useFormatPrice();
 
   if (cargando) {
     return <div className="productDetails">Cargando...</div>;
@@ -74,11 +25,11 @@ function ProductDetails() {
   return (
     <div className='productDetails'>
       <div className='contenedorCategories'>
-        {Categorias.length > 0 && (
+        {categorias.length > 0 && (
           <div className='categories'>
-            {Categorias.map((category, index) => (
+            {categorias.map((category, index) => (
               <span key={index}>
-                {index < Categorias.length - 1 ? (
+                {index < categorias.length - 1 ? (
                   <>
                     {category} <RiArrowRightWideFill />
                   </>
@@ -96,17 +47,25 @@ function ProductDetails() {
           <div className='block-Item'>
             <div className='block-comprar'>
               <div className='block-cantvendidos'>
-                <span>{producto.condition === 'new' ? 'Nuevo' : 'Usado'}</span> - <span>{Vendidos} vendidos</span> 
+                <span>{producto.condition === 'new' ? 'Nuevo' : 'Usado'}</span> - <span>{vendidos} vendidos</span> 
               </div>
             </div>
             <div className='titleItem'>
               <span>{producto.title}</span>
             </div>
-            <div className='priceItem'>
-              <span>{formatPrice(producto.price?.amount)}</span>
-              {producto.price.decimals == 0 ? <span className='decimals'> 00 </span> : <span className='decimals'> {producto.price.decimals} </span>}
+            
+            {producto && producto.price && ( // Verificación adicional
+              <div className='priceItem'>
+                <span>{formatPrice(producto.price.amount)}</span>
+                {producto.price.decimals === 0 ? (
+                  <span className='decimals'> 00 </span>
+                ) : (
+                  <span className='decimals'> {producto.price.decimals} </span>
+                )}
+              </div>
+            )}
               
-            </div>
+            
             <div className='button-comprar'>
               <button>
                 <span>Comprar</span>
