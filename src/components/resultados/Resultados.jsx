@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./Resultados.scss";
-import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
-import urlBack from "../../utilities/urlBack";
 import { RiArrowRightWideFill } from "react-icons/ri";
 import CamionML from "../../assets/camionML.png";
 import { useDispatch } from "react-redux";
+import useFetchResults from "../../hooks/useFetchResults";
+import useFormatNumber from "../../hooks/useFormatNumber";
 import SEO from "../../utilities/seo.jsx";
 import  LazyLoad  from "react-lazyload";
 
@@ -14,90 +14,27 @@ function Resultados() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-
-  const [resultados, setResultados] = useState({
-    categorias: [],
-    items: [],
-    paginacion: {
-      paginaActual: 0,
-      totalPaginas: 0,
-    },
-  });
-  const [cargando, setCargando] = useState(true); 
-
-  const { categorias, items, paginacion } = resultados;
+  const [paginaActual, setPaginaActual] = useState(1);
+  const [limite, setLimite] = useState(4)
   const query = new URLSearchParams(location.search).get("search");
+  const { resultados, cargando, error } = useFetchResults(query, paginaActual, limite); // Obtenemos handlePageChange del hook
+  const { categorias, items, paginacion } = resultados;
+  const formatNumber = useFormatNumber();
 
-
-
-
-  const obtenerResultados = async () => {
-    const cachedData = localStorage.getItem(`resultados_${query}`);
-    if(cachedData){
-      setResultados(JSON.parse(cachedData));
-      setCargando(false); 
-    }else{
-    try {
-      const respuesta = await axios.get(
-        `${urlBack}/api/items?q=${query}&page=${paginacion.paginaActual}&limit=4`
-      );
-      
-      const resultadosFormateados = {
-        categorias: respuesta.data.categories,
-        items: respuesta.data.items,
-        paginacion: {
-          paginaActual: respuesta.data.pagination?.page || 1,
-          totalPaginas: respuesta.data.pagination?.pages || 1,
-        },
-      };
-
-      setResultados(resultadosFormateados);
-      localStorage.setItem(`resultados_${query}`, JSON.stringify(resultadosFormateados));
-    } catch (error) {
-      console.error("Error al obtener resultados:", error);
-    }finally {
-      setCargando(false); 
-    }
-    }
-  };
-
-  const handlePageChange = (nuevaPagina) => {
-    if (nuevaPagina >= 1 && nuevaPagina <= paginacion.totalPaginas) {
-      setResultados((prevResultados) => ({
-        ...prevResultados,
-        paginacion: {
-          ...prevResultados.paginacion,
-          paginaActual: nuevaPagina,
-        },
-      }));
-    }
-  };
+  // Eliminamos handlePageChange ya que no es necesario en este componente
 
   const goToItemDetails = (id, available_quantity) => {
     dispatch({ type: "CantidadDisponible", payload: available_quantity });
-
     navigate(`/items/${id}`);
   };
-
-  const formatNumber = (numero) => {
-    return new Intl.NumberFormat("es-AR", {
-      style: "currency",
-      currency: "ARS",
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(numero);
-  };
-
-  useEffect(() => {
-    if (query) {
-      obtenerResultados();
-    }
-  }, [query, paginacion.paginaActual]);
 
   if (cargando && query) {
     return <div className="containerResultados">Cargando...</div>;
   }
 
+  const handlePagina = (pagina) => {
+    setPaginaActual(pagina);
+  };
 
   return (
     <div className="containerResultados">
@@ -168,17 +105,17 @@ function Resultados() {
           <div className="noResults">No hay resultados para tu búsqueda.</div>
         )}
       </div>
-      {paginacion.paginaActual !== 0 ? (
+      {paginacion.totalPaginas !== 1 ? (
         <div className="containerPaginas">
           <button
-            onClick={() => handlePageChange(paginacion.paginaActual - 1)}
+            onClick={() => handlePagina(paginacion.paginaActual - 1)}
             disabled={paginacion.paginaActual === 1}
           >
             Anterior
           </button>
           <select
             value={paginacion.paginaActual}
-            onChange={(e) => handlePageChange(parseInt(e.target.value, 10))}
+            onChange={(e) => handlePagina(parseInt(e.target.value, 10))}
           >
             {[...Array(paginacion.totalPaginas).keys()].map((pageNumber) => (
               <option key={pageNumber} value={pageNumber + 1}>
@@ -187,7 +124,7 @@ function Resultados() {
             ))}
           </select>
           <button
-            onClick={() => handlePageChange(paginacion.paginaActual + 1)}
+            onClick={() => handlePagina(paginacion.paginaActual + 1)}
             disabled={paginacion.paginaActual === paginacion.totalPaginas}
           >
             Siguiente
