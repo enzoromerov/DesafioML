@@ -27,30 +27,13 @@ function ProductDetails() {
 
   return (
     <div className='productDetails'>
-        <div className='contenedorCategories' >
-          {categorias.length > 0 && (
-            <div className='categories'>
-              {categorias.map((category, index) => (
-                <span key={index}>
-                  {index < categorias.length - 1 ? (
-                    <>
-                      {category} <RiArrowRightWideFill />
-                    </>
-                  ) : (
-                    <b>{category}</b>
-                  )}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
       {producto && <SEO title={`${producto.title} - Mercado Libre`} description={`Compra ${producto.title} en Mercado Libre`} />}
       <div className='contenedorCategories'>
-        {Categorias.length > 0 && (
+        {categorias.length > 0 && (
           <div className='categories'>
-            {Categorias.map((category, index) => (
+            {categorias.map((category, index) => (
               <span key={index}>
-                {index < Categorias.length - 1 ? (
+                {index < categorias.length - 1 ? (
                   <>
                     {category} <RiArrowRightWideFill />
                   </>
@@ -64,7 +47,7 @@ function ProductDetails() {
       </div>
       <div className='containerbody'>
         <div className='row1product'>
-          <LazyLoad> 
+          <LazyLoad > 
           <img src={producto.picture} alt={producto.title} /> 
           </LazyLoad> 
           <div className='block-Item'>
